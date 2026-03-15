@@ -64,14 +64,11 @@ return {
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        config = function()
-            require('nvim-treesitter.configs').setup(
-                {
-                    ensure_installed = { "bash", "lua", "vim", "python", "javascript", "html"},
-                    highlight = { enable = true },
-                    indent = { enable = true},
-                }
-            )    
-        end,
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {
+            ensure_installed = { "bash", "lua", "vim", "python", "javascript", "html", 'nix' },
+            highlight = { enable = true },
+            indent = { enable = true},
+        },
     },
 }

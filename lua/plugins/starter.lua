@@ -227,7 +227,7 @@ return {
                 starter.gen_hook.adding_bullet("» "),
                 starter.gen_hook.aligning('center', 'center'),
 	    	},
-            header = header_art12,
+            header = header_art1,
             footer = '',
         })
     end,

@@ -3,8 +3,8 @@
 ## features
 - lazy.vim
 - simple
-- mini.nvim plugins
+- selected mini.nvim plugins
 - base16 colorschemes
 
 ## deploy
-`git clone https://github.com/zhongminlin/nvim-config.git ~/.config/nvim`
+`git clone https://github.com/z66n/nvim.git ~/.config/nvim`
