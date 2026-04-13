@@ -1,14 +1,11 @@
 local opt = vim.opt
 
--- extra
--- opt.shell = 'powershell.exe' -- windows only
-
 -- basic
 opt.scrolloff = 3
-opt.mouse = 'a'
+opt.mouse = "a"
 opt.title = true
-opt.titlestring = '%f'
-opt.clipboard = 'unnamedplus'
+opt.titlestring = "%f"
+opt.clipboard = "unnamedplus"
 opt.swapfile = false
 opt.undofile = true
 opt.cmdheight = 0
@@ -37,10 +34,10 @@ opt.splitbelow = true
 opt.splitright = true
 opt.hidden = true
 opt.fillchars = {
-  vert = "│",
-  eob = " ",
-  diff = " ",
-  msgsep = " "
+	vert = "│",
+	eob = " ",
+	diff = " ",
+	msgsep = " ",
 }
 
 -- text formatting
@@ -50,9 +47,7 @@ opt.tabstop = 4
 opt.smartindent = true
 opt.showmatch = true
 opt.smartcase = true
-opt.whichwrap:append "<>[]hl"
+opt.whichwrap:append("<>[]hl")
 opt.autoindent = true
 opt.smarttab = true
 opt.softtabstop = 4
-
-
