@@ -28,6 +28,9 @@ map("n", "<A-n>", ":enew<CR>", opts)
 map("n", "<C-f>", ":NvimTreeFocus<CR>", opts)
 map("n", "<C-g>", ":NvimTreeToggle<CR>", opts)
 
+-- mini.files
+map("n", "<C-e>", ":lua MiniFiles.open()<CR>", opts)
+
 -- barbar.nvim
 -- Move to previous/next
 map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)

@@ -1,9 +1,7 @@
 vim.pack.add({
 	"https://github.com/nvim-mini/mini.nvim",
-	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/romgrk/barbar.nvim",
-	"https://github.com/catgoose/nvim-colorizer.lua",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/mfussenegger/nvim-lint",
@@ -11,9 +9,6 @@ vim.pack.add({
 
 -- nvim-tree
 require("nvim-tree").setup()
-
--- nvim-colorizer
-require("colorizer").setup()
 
 -- nvim-treesitter
 vim.schedule(function()
@@ -88,37 +83,104 @@ vim.api.nvim_create_autocmd("FileType", {
 -- mini.nvim
 -- Text editing
 require("mini.ai").setup()
-require("mini.align").setup()
 require("mini.comment").setup()
+require("mini.move").setup()
 require("mini.pairs").setup()
-require("mini.operators").setup()
 require("mini.surround").setup()
 
 -- General
 require("mini.basics").setup()
 require("mini.bracketed").setup()
-require("mini.bufremove").setup()
--- require('mini.deps').setup()
+
+local miniclue = require('mini.clue')
+miniclue.setup({
+  triggers = {
+    -- Leader triggers
+    { mode = { 'n', 'x' }, keys = '<Leader>' },
+
+    -- `[` and `]` keys
+    { mode = 'n', keys = '[' },
+    { mode = 'n', keys = ']' },
+
+    -- Built-in completion
+    { mode = 'i', keys = '<C-x>' },
+
+    -- `g` key
+    { mode = { 'n', 'x' }, keys = 'g' },
+
+    -- Marks
+    { mode = { 'n', 'x' }, keys = "'" },
+    { mode = { 'n', 'x' }, keys = '`' },
+
+    -- Registers
+    { mode = { 'n', 'x' }, keys = '"' },
+    { mode = { 'i', 'c' }, keys = '<C-r>' },
+
+    -- Window commands
+    { mode = 'n', keys = '<C-w>' },
+
+    -- `z` key
+    { mode = { 'n', 'x' }, keys = 'z' },
+  },
+
+  clues = {
+    -- Enhance this by adding descriptions for <Leader> mapping groups
+    miniclue.gen_clues.square_brackets(),
+    miniclue.gen_clues.builtin_completion(),
+    miniclue.gen_clues.g(),
+    miniclue.gen_clues.marks(),
+    miniclue.gen_clues.registers(),
+    miniclue.gen_clues.windows(),
+    miniclue.gen_clues.z(),
+  },
+
+  window = {
+    delay = 0
+  },
+})
+
+require("mini.cmdline").setup()
 require("mini.extra").setup()
--- require('mini.files').setup()
+require('mini.git').setup()
+require('mini.files').setup()
 require("mini.pick").setup()
+
 require("mini.sessions").setup({
 	file = "",
 })
 
 -- Appearance
 require("mini.animate").setup()
+
 -- require("mini.base16").setup({
 -- 	palette = require("colors." .. theme),
 -- 	use_cterm = true,
 -- })
--- require("mini.colors").setup()
+
+local hipatterns = require('mini.hipatterns')
+hipatterns.setup({
+  highlighters = {
+    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+    fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+    hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
+    todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
+    note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+
+    -- Highlight hex color strings (`#rrggbb`) using that color
+    hex_color = hipatterns.gen_highlighter.hex_color(),
+  },
+})
+
 require("mini.hues").setup({
 	background = "#1e1e1e",
 	foreground = "#cccccc",
 })
+
 require("mini.icons").setup()
+MiniIcons.mock_nvim_web_devicons()
+
 require("mini.indentscope").setup()
+
 require("mini.starter").setup({
 	header = [[
 ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗
@@ -129,5 +191,5 @@ require("mini.starter").setup({
 ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝
   ]],
 })
+
 require("mini.statusline").setup()
--- require('mini.tabline').setup()
