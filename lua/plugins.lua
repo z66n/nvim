@@ -3,6 +3,10 @@ vim.pack.add({
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/romgrk/barbar.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/mason-org/mason-lspconfig.nvim",
+	"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/mfussenegger/nvim-lint",
 })
@@ -39,14 +43,33 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- lsp
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("mason-tool-installer").setup({
+	ensure_installed = {
+		{ "lua_ls" },
+		{ "stylua" },
+		{ "pyright" },
+		{ "ruff" },
+		{ "sqlls" },
+		{ "sqruff" },
+		{ "ts_ls" },
+		{ "biome" },
+		-- { "nil" },
+		-- { "alejandra" },
+		-- { "statix" },
+	},
+})
+
 -- linter and formatter
 require("conform").setup({
 	formatters_by_ft = {
-		-- nix = { "alejandra" },
-		sql = { "sqruff" },
 		lua = { "stylua" },
-		javascript = { "biome" },
 		python = { "ruff_format" },
+		sql = { "sqruff" },
+		javascript = { "biome" },
+		-- nix = { "alejandra" },
 	},
 	format_on_save = {
 		-- These options will be passed to conform.format()
@@ -59,10 +82,10 @@ require("conform").setup({
 local lint = require("lint")
 
 lint.linters_by_ft = {
-	-- nix = { "statix" },
-	sql = { "sqruff" },
 	python = { "ruff" },
+	sql = { "sqruff" },
 	javascript = { "biomejs" },
+	-- nix = { "statix" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
@@ -92,57 +115,57 @@ require("mini.surround").setup()
 require("mini.basics").setup()
 require("mini.bracketed").setup()
 
-local miniclue = require('mini.clue')
+local miniclue = require("mini.clue")
 miniclue.setup({
-  triggers = {
-    -- Leader triggers
-    { mode = { 'n', 'x' }, keys = '<Leader>' },
+	triggers = {
+		-- Leader triggers
+		{ mode = { "n", "x" }, keys = "<Leader>" },
 
-    -- `[` and `]` keys
-    { mode = 'n', keys = '[' },
-    { mode = 'n', keys = ']' },
+		-- `[` and `]` keys
+		{ mode = "n", keys = "[" },
+		{ mode = "n", keys = "]" },
 
-    -- Built-in completion
-    { mode = 'i', keys = '<C-x>' },
+		-- Built-in completion
+		{ mode = "i", keys = "<C-x>" },
 
-    -- `g` key
-    { mode = { 'n', 'x' }, keys = 'g' },
+		-- `g` key
+		{ mode = { "n", "x" }, keys = "g" },
 
-    -- Marks
-    { mode = { 'n', 'x' }, keys = "'" },
-    { mode = { 'n', 'x' }, keys = '`' },
+		-- Marks
+		{ mode = { "n", "x" }, keys = "'" },
+		{ mode = { "n", "x" }, keys = "`" },
 
-    -- Registers
-    { mode = { 'n', 'x' }, keys = '"' },
-    { mode = { 'i', 'c' }, keys = '<C-r>' },
+		-- Registers
+		{ mode = { "n", "x" }, keys = '"' },
+		{ mode = { "i", "c" }, keys = "<C-r>" },
 
-    -- Window commands
-    { mode = 'n', keys = '<C-w>' },
+		-- Window commands
+		{ mode = "n", keys = "<C-w>" },
 
-    -- `z` key
-    { mode = { 'n', 'x' }, keys = 'z' },
-  },
+		-- `z` key
+		{ mode = { "n", "x" }, keys = "z" },
+	},
 
-  clues = {
-    -- Enhance this by adding descriptions for <Leader> mapping groups
-    miniclue.gen_clues.square_brackets(),
-    miniclue.gen_clues.builtin_completion(),
-    miniclue.gen_clues.g(),
-    miniclue.gen_clues.marks(),
-    miniclue.gen_clues.registers(),
-    miniclue.gen_clues.windows(),
-    miniclue.gen_clues.z(),
-  },
+	clues = {
+		-- Enhance this by adding descriptions for <Leader> mapping groups
+		miniclue.gen_clues.square_brackets(),
+		miniclue.gen_clues.builtin_completion(),
+		miniclue.gen_clues.g(),
+		miniclue.gen_clues.marks(),
+		miniclue.gen_clues.registers(),
+		miniclue.gen_clues.windows(),
+		miniclue.gen_clues.z(),
+	},
 
-  window = {
-    delay = 0
-  },
+	window = {
+		delay = 0,
+	},
 })
 
 require("mini.cmdline").setup()
 require("mini.extra").setup()
-require('mini.git').setup()
-require('mini.files').setup()
+require("mini.git").setup()
+require("mini.files").setup()
 require("mini.pick").setup()
 
 require("mini.sessions").setup({
@@ -153,22 +176,22 @@ require("mini.sessions").setup({
 require("mini.animate").setup()
 
 -- require("mini.base16").setup({
--- 	palette = require("colors." .. theme),
+-- 	palette = require("colors." .. Theme),
 -- 	use_cterm = true,
 -- })
 
-local hipatterns = require('mini.hipatterns')
+local hipatterns = require("mini.hipatterns")
 hipatterns.setup({
-  highlighters = {
-    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-    fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-    hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
-    todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
-    note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+	highlighters = {
+		-- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+		hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
 
-    -- Highlight hex color strings (`#rrggbb`) using that color
-    hex_color = hipatterns.gen_highlighter.hex_color(),
-  },
+		-- Highlight hex color strings (`#rrggbb`) using that color
+		hex_color = hipatterns.gen_highlighter.hex_color(),
+	},
 })
 
 require("mini.hues").setup({

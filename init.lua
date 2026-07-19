@@ -6,7 +6,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
 -- mini.base16 color theme
-theme = "tokyonight"
+Theme = "tokyonight"
 
 -- load lua modules
 require("options")
